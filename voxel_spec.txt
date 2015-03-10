@@ -1,0 +1,36 @@
+Super Ultra Mega Professional VOXEL format spec, lol
+
+Voxel models:
+* Have a version number for the VOXEL format
+* Have a cubic size from 1 to 256 (values 0..255)
+* Have a scale at which they are drawn in the world, from 1 to 256 (values 0..255)
+* Have a root location denoting the "center" of the object. When drawing a voxel model at (1, 1, 1), the model's root location will be at (1, 1, 1)
+* Have a list of no more than 255 colors for voxels
+* Have a cubic array of indices, either 0 (nonexistant) or 1..255 (index into materials list)
+
+Version 0:
+
+[byte] version (always 0)
+[byte] number of colors
+[byte] one less than the cubic size of the model (values 0..255 becone sizes 1..256)
+[byte] the scale of the model in the world
+
+[float] the X position of the root location
+[float] the Y position of the root location
+[float] the Z position of the root location
+
+number of colors * {
+	[float] the red value of the color
+	[float] the green value of the color
+	[float] the blue value of the color
+}
+
+size^3 * {
+	[byte] index into materials list (or 0 for no voxel)
+}
+
+The size of a version 0 file, in bytes, will always be 16 + 12*num_colors + size^3. The largest possible file, with 255 colors and a 256x256x256 grid, is ~16MB (16780292 bytes).
+
+Version 0 notes:
+
+* Colors could be stored 4x as efficiently as bytes rather than floats. Not a huge issue, since the color array will never be significantly large (765 bytes for a model with 255 colors - for comparison, a 9*9*9 index array takes up 729 bytes).
