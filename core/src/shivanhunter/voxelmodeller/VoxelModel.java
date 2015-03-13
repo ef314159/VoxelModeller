@@ -22,7 +22,7 @@ import com.badlogic.gdx.math.collision.Ray;
 public class VoxelModel {
 	/*
 	 * voxel data - bytes here are either 0 (no voxel) or an index into the
-	 * color array (where a vluea of 3 is colors[2], and so on).
+	 * color array (where a value of 3 is colors[2], and so on).
 	 */
 	private byte[][][] blocks;
 	
@@ -151,6 +151,8 @@ public class VoxelModel {
 		if (size < 1) size = 1;
 		this.size = size;
 		
+		scale = 16;
+		
 		// set up objects/lists
 		mat = new Material(ColorAttribute.createDiffuse(1f, 1f, 1f, 1));
 		colors = new ArrayList<Color>();
@@ -167,9 +169,7 @@ public class VoxelModel {
 		blocks[size/2][size/2][size/2] = 1;
 		
 		// create model from initial data
-		updateBounds();
-		updateMesh();
-		updateRoot();
+		update();
 	}
 	
 	/**
@@ -180,6 +180,15 @@ public class VoxelModel {
 		model.dispose();
 		boundsModel.dispose();
 		rootModel.dispose();
+	}
+	
+	/**
+	 * Recreates all rendered models in this VoxelModel.
+	 */
+	public void update() {
+		updateBounds();
+		updateMesh();
+		updateRoot();
 	}
 	
 	/**

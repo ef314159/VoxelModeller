@@ -77,7 +77,7 @@ public class MainScreen extends ApplicationAdapter implements InputProcessor {
 	 */
 
 	/**
-	 * Creates a new MainScreen object. Initializes the environment and model.s
+	 * Creates a new MainScreen object. Initializes the environment and models.
 	 */
 	@Override public void create() {
 		initCamera();
@@ -145,13 +145,30 @@ public class MainScreen extends ApplicationAdapter implements InputProcessor {
 		Button saveButton = newButton("save.png", "save_over.png", "save_down.png");
 		Button loadButton = newButton("load.png", "load_over.png", "load_down.png");
 		Button newButton = newButton("new.png", "new_over.png", "new_down.png");
-		Button boundsButton = newButton("bounds.png", "bounds_over.png", "bounds_down.png");
+		Button addxButton = newButton("root_addx.png", "root_addx_over.png", "root_addx_over.png");
+		Button addyButton = newButton("root_addy.png", "root_addy_over.png", "root_addy_over.png");
+		Button addzButton = newButton("root_addz.png", "root_addz_over.png", "root_addz_over.png");
+		Button subxButton = newButton("root_subx.png", "root_subx_over.png", "root_subx_over.png");
+		Button subyButton = newButton("root_suby.png", "root_suby_over.png", "root_suby_over.png");
+		Button subzButton = newButton("root_subz.png", "root_subz_over.png", "root_subz_over.png");
+		Button resetButton = newButton("root_reset.png", "root_reset_over.png", "root_reset_over.png");
+		Button addsizeButton = newButton("size_add.png", "size_add_over.png", "size_add_over.png");
+		Button subsizeButton = newButton("size_sub.png", "size_sub_over.png", "size_sub_over.png");
 		
 		// position buttons in top left corner
-		saveButton.moveBy(0, Gdx.graphics.getHeight()-32);
-		loadButton.moveBy(0, Gdx.graphics.getHeight()-64);
-		newButton.moveBy(0, Gdx.graphics.getHeight()-96);
-		boundsButton.moveBy(0, Gdx.graphics.getHeight()-128);
+		int position = Gdx.graphics.getHeight() - 32;
+		saveButton.moveBy(0, position); position -= 32;
+		loadButton.moveBy(0, position); position -= 32;
+		newButton.moveBy(0, position); position -= 32;
+		addxButton.moveBy(0, position); position -= 32;
+		addyButton.moveBy(0, position); position -= 32;
+		addzButton.moveBy(0, position); position -= 32;
+		subxButton.moveBy(0, position); position -= 32;
+		subyButton.moveBy(0, position); position -= 32;
+		subzButton.moveBy(0, position); position -= 32;
+		resetButton.moveBy(0, position); position -= 32;
+		addsizeButton.moveBy(0, position); position -= 32;
+		subsizeButton.moveBy(0, position); position -= 32;
 		
 		// add functions when pressed
 		saveButton.addCaptureListener(new ChangeListener() {
@@ -172,9 +189,62 @@ public class MainScreen extends ApplicationAdapter implements InputProcessor {
 		    }
 		});
 		
-		boundsButton.addCaptureListener(new ChangeListener() {
+		addxButton.addCaptureListener(new ChangeListener() {
 		    public void changed (ChangeEvent event, Actor actor) {
-		        //save();
+		        model.getRootLocation().x++; model.update();
+		    }
+		});
+		
+		addyButton.addCaptureListener(new ChangeListener() {
+		    public void changed (ChangeEvent event, Actor actor) {
+		        model.getRootLocation().y++; model.update();
+		    }
+		});
+		
+		addzButton.addCaptureListener(new ChangeListener() {
+		    public void changed (ChangeEvent event, Actor actor) {
+		        model.getRootLocation().z++; model.update();
+		    }
+		});
+		
+		subxButton.addCaptureListener(new ChangeListener() {
+		    public void changed (ChangeEvent event, Actor actor) {
+		        model.getRootLocation().x--; model.update();
+		    }
+		});
+		
+		subyButton.addCaptureListener(new ChangeListener() {
+		    public void changed (ChangeEvent event, Actor actor) {
+		        model.getRootLocation().y--; model.update();
+		    }
+		});
+		
+		subzButton.addCaptureListener(new ChangeListener() {
+		    public void changed (ChangeEvent event, Actor actor) {
+		        model.getRootLocation().z--; model.update();
+		    }
+		});
+		
+		resetButton.addCaptureListener(new ChangeListener() {
+		    public void changed (ChangeEvent event, Actor actor) {
+		        model.getRootLocation().x = -model.getSize()/2f;
+		        model.getRootLocation().y = -model.getSize()/2f;
+		        model.getRootLocation().z = -model.getSize()/2f;
+		        model.update();
+		    }
+		});
+		
+		addsizeButton.addCaptureListener(new ChangeListener() {
+		    public void changed (ChangeEvent event, Actor actor) {
+		        model.setSize(model.getSize() + 1);
+		        model.update();
+		    }
+		});
+		
+		subsizeButton.addCaptureListener(new ChangeListener() {
+		    public void changed (ChangeEvent event, Actor actor) {
+		        model.setSize(model.getSize() - 1);
+		        model.update();
 		    }
 		});
 		
@@ -182,7 +252,15 @@ public class MainScreen extends ApplicationAdapter implements InputProcessor {
 		stage.addActor(saveButton);
 		stage.addActor(loadButton);
 		stage.addActor(newButton);
-		//stage.addActor(boundsButton);
+		stage.addActor(addxButton);
+		stage.addActor(addyButton);
+		stage.addActor(addzButton);
+		stage.addActor(subxButton);
+		stage.addActor(subyButton);
+		stage.addActor(subzButton);
+		stage.addActor(resetButton);
+		stage.addActor(addsizeButton);
+		stage.addActor(subsizeButton);
 	}
 	
 	/**
